@@ -1,0 +1,4 @@
+enum MedicineListCategory {
+  allMedicines,
+  myMedicines,
+}
