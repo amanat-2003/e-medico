@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medicine_app/enums%20and%20extensions/disease_severity_enum.dart';
 import 'package:medicine_app/models/disease.dart';
+import 'package:medicine_app/providers/all_medicines_provider.dart';
 import 'package:medicine_app/providers/medicines_provider.dart';
 import 'package:medicine_app/widgets/medicine_list_tile.dart';
 
@@ -17,7 +18,7 @@ class DiseaseDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // ref.watch(medicineFiltersProvider);
-    final allMedicines = ref.watch(medicinesProvider);
+    final allMedicines = ref.watch(allMedicinesProvider);
     final medicineList = allMedicines.where(
       (medicine) => disease.medicines.contains(medicine.id),
     );

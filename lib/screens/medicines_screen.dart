@@ -4,6 +4,7 @@ import 'package:medicine_app/enums%20and%20extensions/medicine_list_category_enu
 import 'package:medicine_app/providers/all_medicines_provider.dart';
 import 'package:medicine_app/providers/medicine_list_category_provider.dart';
 import 'package:medicine_app/providers/medicines_provider.dart';
+import 'package:medicine_app/providers/my_medicines_provider.dart';
 import 'package:medicine_app/screens/add_medicine_screen.dart';
 import 'package:medicine_app/widgets/medicine_list_tile.dart';
 
@@ -41,9 +42,16 @@ class MedicinesScreen extends ConsumerWidget {
         itemBuilder: (context, index) => Dismissible(
           key: ValueKey(medicines[index].id),
           onDismissed: (direction) {
-            final allMedicinesNotifier =
-                ref.read(allMedicinesProvider.notifier);
-            allMedicinesNotifier.deleteMedicine(medicines[index]);
+            if (medicineListCategory == MedicineListCategory.allMedicines) {
+              final allMedicinesNotifier =
+                  ref.read(allMedicinesProvider.notifier);
+              allMedicinesNotifier.deleteMedicine(medicines[index]);
+            } else if (medicineListCategory ==
+                MedicineListCategory.myMedicines) {
+              final myMedicinesNotifier =
+                  ref.read(myMedicinesProvider.notifier);
+              myMedicinesNotifier.removeFromMyMedicines(medicines[index]);
+            }
           },
           child: MedicineListTile(
             medicine: medicines[index],
@@ -69,7 +77,7 @@ class MedicinesScreen extends ConsumerWidget {
             onSelected: (value) {
               final medicineListCategoryNotifier =
                   ref.read(medicineListCategoryProvider.notifier);
-              medicineListCategoryNotifier.changeCategory();
+              medicineListCategoryNotifier.changeCategoryTo(value);
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
